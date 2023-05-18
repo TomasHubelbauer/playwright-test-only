@@ -2,6 +2,8 @@
 
 I ran into an issue with `test.only` in Playwright in a work project.
 
+> Error: focused item found in the --forbid-only mode:
+
 In this repository I am trying to reproduce the issue.
 
 I set up both the work repository and this one by following the Getting Started
@@ -56,3 +58,15 @@ https://playwright.dev/docs/intro
    I will replace this repository with the result of that if I succeed.
 
    It is possible I just need to bump Playwright version in that repository?
+
+## The result
+
+This message was printed because I had `CI=1` set (as I was debugging a CI run
+issue) and did not realize that would set `forbidOnly` mode in the configuration
+file `playwright.config.ts` to be enabled (because I was using the initialized
+configuration file and did not take time to study all of the options) and as a
+result my use of `test.only` was explicitly forbidden.
+
+I've opened a PR with a suggestion on how to improve this error message:
+
+https://github.com/microsoft/playwright/pull/23146
